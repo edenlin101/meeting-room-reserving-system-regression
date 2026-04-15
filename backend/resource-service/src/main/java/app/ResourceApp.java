@@ -1,6 +1,6 @@
 package app;
 
-import app.facility.ResourceModule;
+import app.resource.ResourceModule;
 import core.framework.module.App;
 import core.framework.module.SystemModule;
 

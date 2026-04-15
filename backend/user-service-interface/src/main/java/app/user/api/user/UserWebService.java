@@ -15,16 +15,4 @@ public interface UserWebService {
     @POST
     @Path("/user/login")
     LoginUserResponse login(LoginUserRequest request);
-
-    @POST
-    @Path("/user/admin-login")
-    BOLoginUserResponse boLogin(BOLoginUserRequest request);
-
-    @PUT
-    @Path("/user/status")
-    void updateStatus(UpdateUserStatusRequest request);
-
-    @PUT
-    @Path("/user/admin-status")
-    void boUpdateStatus(BOUpdateUserStatusRequest request);
 }

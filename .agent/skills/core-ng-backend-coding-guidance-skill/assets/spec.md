@@ -4,6 +4,15 @@ A comprehensive specification for Core-NG framework. This document is organized 
 - **Part 1: Core Rules & Patterns** - Essential rules you MUST follow (always read)
 - **Part 2: API Reference** - Detailed method signatures and configurations (read when needed)
 
+### 21.9 Interface Module Package Structure
+**Important Principle:** In interface modules (both internal and external gateways), Request, Response, and View beans, as well as the interface files themselves, MUST be placed in a specific sub-package based on their domain (e.g., `app.user.api.user`, `app.resource.api.room`). They MUST NOT be placed directly under the `api` root, nor in a generic `dto` package.
+
+### 21.10 Separation of BO and Non-BO Interfaces
+**Important Principle:** Back-office (BO) operations and regular user operations MUST be separated into different interface files. The BO interface MUST have a `BO` prefix in its class name (e.g., `BOUserWebService`). This applies to both the API definitions and their implementations.
+
+### 21.11 Package and Module Name Correspondence
+**Important Principle:** The `{service-name}` used in the base package (e.g., `app.{service-name}`) MUST correspond directly to the Gradle module name. For example, if the module is named `resource-service`, the base package must be `app.resource`, NOT `app.facility`.
+
 ---
 
 # Part 1: Core Rules & Patterns
@@ -1241,7 +1250,7 @@ Operations for administrators in the backend.
 ## 20. Architecture & Design Principles
 
 ### 20.1 Scheduler Jobs Separation
-**Important Principle:** Scheduler jobs (like sending notifications or regular cleanups) MUST be placed in a dedicated `scheduler-service` module rather than inside business microservices (e.g. `booking-service`). This ensures that jobs run as a single logical node or a cleanly separated process, avoiding duplicate data fetching or concurrent executions across multiple instances of the business service.
+**Important Principle:** Scheduler jobs (like sending notifications or regular cleanups) MUST be placed in a dedicated `scheduler-service` module rather than inside business microservices (e.g. `reservation-service`). This ensures that jobs run as a single logical node or a cleanly separated process, avoiding duplicate data fetching or concurrent executions across multiple instances of the business service.
 
 ### 20.2 Kafka Message Types and Scheduler Jobs
 **Important Principle:** The `scheduler-service` MUST NOT perform direct business data modifications. Instead, it must trigger business modules via Kafka messages. Kafka messages should be explicitly categorized into two types:
@@ -1257,9 +1266,9 @@ Naming conventions for Kafka topics and message objects MUST clearly reflect whe
 **Important Principle:** When using `@Inject` for field injection, the annotation MUST be placed on a separate line above the field declaration, not on the same line. For example, use:
 ```java
 @Inject
-BookingWebService bookingWebService;
+ReservationWebService reservationWebService;
 ```
-instead of `@Inject BookingWebService bookingWebService;`.
+instead of `@Inject ReservationWebService reservationWebService;`.
 
 **Important Principle:** When multiple fields are injected consecutively using `@Inject`, there MUST NOT be any blank lines between them. For example:
 ```java
@@ -1296,8 +1305,14 @@ instead of having a blank line after the opening brace.
 ### 21.7 Mandatory NotNull for Known Non-Null Fields
 **Important Principle:** In all Request, Response, View DTOs, and **Kafka message objects** within interface modules, if a field is known or intended to be non-null (e.g., identifiers, status codes, timestamps, primitive wrappers that shouldn't be null), it MUST be annotated with `@NotNull` (from `core.framework.api.validate.NotNull`). This guarantees validation at the boundary.
 
-### 21.8 No API Prefix in Interface Paths
-**Important Principle:** In internal microservice interface path definitions, DO NOT include the `/api` or `/bo` prefix. The paths should reflect the resource directly, such as `/reservation/:id/cancel` instead of `/api/reservation/:id/cancel` or `/user` instead of `/bo/user`. Gateways may still use `/ajax` for frontend distinctions, but internal services MUST NOT use arbitrary routing prefixes.
+### 21.8 API Prefixes
+**Important Principle:** Internal microservice interfaces for Back-office operations MUST use the `/bo/` prefix in their URL paths. Non-BO API paths DO NOT need an `/api/` prefix and should reflect the resource directly. Gateways should use `/ajax/`.
+
+### 21.12 BO Naming Conventions
+**Important Principle:** For Back-office (BO) interfaces, the Request and Response DTOs MUST have a `BO` prefix (e.g., `BOCreateCompanyRequest`, `BOCreateCompanyResponse`). However, if a BO Response contains a nested View bean, the View bean itself does NOT need the `BO` prefix (e.g., `CompanyView` is acceptable inside `BOListCompanyResponse`).
+
+### 21.13 Specific Field and Variable Naming
+**Important Principle:** Do NOT use generic or abstract names (e.g., `items`, `data`, `result`, `info`) for fields, variables, or response properties. Names MUST be concrete and specifically describe the business entity they represent (e.g., use `companies` instead of `items`, `userDetails` instead of `data`).
 
 ---
 

@@ -4,7 +4,7 @@ import app.user.api.user.BOLoginUserRequest;
 import app.user.api.user.BOLoginUserResponse;
 import app.user.api.user.BOUpdateUserStatusRequest;
 import app.user.api.user.UserStatusView;
-import app.user.api.user.UserWebService;
+import app.user.api.user.BOUserWebService;
 import app.backoffice.api.user.AdminLoginAJAXRequest;
 import app.backoffice.api.user.AdminLoginAJAXResponse;
 import app.backoffice.api.user.UpdateUserStatusAJAXRequest;
@@ -14,7 +14,7 @@ import core.framework.web.Request;
 
 public class UserAJAXWebServiceImpl implements UserAJAXWebService {
     @Inject
-    UserWebService userWebService;
+    BOUserWebService userWebService;
 
     @Inject
     Request request;
@@ -25,7 +25,7 @@ public class UserAJAXWebServiceImpl implements UserAJAXWebService {
         remoteReq.username = req.username;
         remoteReq.password = req.password;
 
-        BOLoginUserResponse remoteResp = userWebService.boLogin(remoteReq);
+        BOLoginUserResponse remoteResp = userWebService.login(remoteReq);
 
         request.session().set("adminId", String.valueOf(remoteResp.id));
 
@@ -41,6 +41,6 @@ public class UserAJAXWebServiceImpl implements UserAJAXWebService {
         remoteReq.id = req.userId;
         remoteReq.status = UserStatusView.valueOf(req.status.name());
         
-        userWebService.boUpdateStatus(remoteReq);
+        userWebService.updateStatus(remoteReq);
     }
 }

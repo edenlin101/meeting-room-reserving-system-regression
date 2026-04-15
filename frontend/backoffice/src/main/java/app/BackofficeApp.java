@@ -1,11 +1,15 @@
 package app;
 
-import app.facility.api.company.CompanyWebService;
-import app.facility.api.room.RoomWebService;
+import app.resource.api.company.CompanyWebService;
+import app.resource.api.company.BOCompanyWebService;
+import app.resource.api.room.RoomWebService;
+import app.resource.api.room.BORoomWebService;
 import app.reservation.api.reservation.ReservationWebService;
+import app.reservation.api.reservation.BOReservationWebService;
 import app.user.api.user.UserWebService;
-import app.backoffice.api.facility.CompanyAJAXWebService;
-import app.backoffice.api.facility.RoomAJAXWebService;
+import app.user.api.user.BOUserWebService;
+import app.backoffice.api.company.CompanyAJAXWebService;
+import app.backoffice.api.room.RoomAJAXWebService;
 import app.backoffice.api.reservation.ReservationAJAXWebService;
 import app.backoffice.api.user.UserAJAXWebService;
 import app.backoffice.interceptor.AdminLoginInterceptor;
@@ -23,10 +27,10 @@ public class BackofficeApp extends App {
 
         site().session().local();
 
-        api().client(UserWebService.class, requiredProperty("app.user.url"));
-        api().client(CompanyWebService.class, requiredProperty("app.resource.url"));
-        api().client(RoomWebService.class, requiredProperty("app.resource.url"));
-        api().client(ReservationWebService.class, requiredProperty("app.booking.url"));
+        api().client(BOUserWebService.class, requiredProperty("app.user.url"));
+        api().client(BOCompanyWebService.class, requiredProperty("app.resource.url"));
+        api().client(BORoomWebService.class, requiredProperty("app.resource.url"));
+        api().client(BOReservationWebService.class, requiredProperty("app.reservation.url"));
 
         api().service(UserAJAXWebService.class, bind(UserAJAXWebServiceImpl.class));
         api().service(CompanyAJAXWebService.class, bind(CompanyAJAXWebServiceImpl.class));

@@ -1,6 +1,6 @@
 package app;
 
-import core.framework.db.DBConfig;
+import core.framework.module.DBConfig;
 import core.framework.module.App;
 import core.framework.module.SystemModule;
 

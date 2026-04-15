@@ -1,8 +1,8 @@
 package app.backoffice.web.reservation;
 
-import app.reservation.api.reservation.ReservationWebService;
-import app.reservation.api.reservation.SearchReservationRequest;
-import app.reservation.api.reservation.SearchReservationResponse;
+import app.reservation.api.reservation.BOReservationWebService;
+import app.reservation.api.reservation.BOSearchReservationRequest;
+import app.reservation.api.reservation.BOSearchReservationResponse;
 import app.backoffice.api.reservation.ReservationAJAXView;
 import app.backoffice.api.reservation.ReservationAJAXWebService;
 import app.backoffice.api.reservation.ReservationStatusAJAXView;
@@ -14,19 +14,19 @@ import java.util.stream.Collectors;
 
 public class ReservationAJAXWebServiceImpl implements ReservationAJAXWebService {
     @Inject
-    ReservationWebService reservationWebService;
+    BOReservationWebService reservationWebService;
 
     @Override
     public SearchReservationAJAXResponse search(SearchReservationAJAXRequest req) {
-        SearchReservationRequest remoteReq = new SearchReservationRequest();
+        BOSearchReservationRequest remoteReq = new BOSearchReservationRequest();
         remoteReq.companyId = req.companyId;
         remoteReq.roomId = req.roomId;
         remoteReq.date = req.date;
 
-        SearchReservationResponse remoteResp = reservationWebService.search(remoteReq);
+        BOSearchReservationResponse remoteResp = reservationWebService.search(remoteReq);
 
         SearchReservationAJAXResponse resp = new SearchReservationAJAXResponse();
-        resp.items = remoteResp.items.stream().map(r -> {
+        resp.reservations = remoteResp.reservations.stream().map(r -> {
             ReservationAJAXView view = new ReservationAJAXView();
             view.id = r.id;
             view.userId = r.userId;

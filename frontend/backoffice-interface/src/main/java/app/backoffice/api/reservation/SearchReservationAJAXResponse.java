@@ -7,6 +7,6 @@ import java.util.List;
 
 public class SearchReservationAJAXResponse {
     @NotNull
-    @Property(name = "items")
-    public List<ReservationAJAXView> items;
+    @Property(name = "reservations")
+    public List<ReservationAJAXView> reservations;
 }

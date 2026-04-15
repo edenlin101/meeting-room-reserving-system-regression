@@ -64,7 +64,7 @@ configure(
     listOf(
         project(":backend:user-service"),
         project(":backend:resource-service"),
-        project(":backend:booking-service"),
+        project(":backend:reservation-service"),
         project(":backend:notification-service"),
         project(":backend:scheduler-service")
     )
@@ -105,22 +105,22 @@ project(":backend:meeting-room-service") {
     }
 }
 
-project(":backend:booking-service") {
+project(":backend:reservation-service") {
     dependencies {
-        "implementation"(project(":backend:booking-service-interface"))
+        "implementation"(project(":backend:reservation-service-interface"))
         "implementation"("com.wonder:core-ng-mongo")
     }
 }
 
 project(":backend:notification-service") {
     dependencies {
-        "implementation"(project(":backend:booking-service-interface"))
+        "implementation"(project(":backend:reservation-service-interface"))
     }
 }
 
 project(":backend:scheduler-service") {
     dependencies {
-        "implementation"(project(":backend:booking-service-interface"))
+        "implementation"(project(":backend:reservation-service-interface"))
     }
 }
 
@@ -129,7 +129,7 @@ project(":frontend:website") {
         "implementation"(project(":frontend:website-interface"))
         "implementation"(project(":backend:user-service-interface"))
         "implementation"(project(":backend:resource-service-interface"))
-        "implementation"(project(":backend:booking-service-interface"))
+        "implementation"(project(":backend:reservation-service-interface"))
     }
 }
 
@@ -138,6 +138,6 @@ project(":frontend:backoffice") {
         "implementation"(project(":frontend:backoffice-interface"))
         "implementation"(project(":backend:user-service-interface"))
         "implementation"(project(":backend:resource-service-interface"))
-        "implementation"(project(":backend:booking-service-interface"))
+        "implementation"(project(":backend:reservation-service-interface"))
     }
 }

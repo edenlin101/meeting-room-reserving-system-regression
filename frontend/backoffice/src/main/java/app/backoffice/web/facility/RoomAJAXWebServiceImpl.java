@@ -1,29 +1,29 @@
 package app.backoffice.web.facility;
 
-import app.facility.api.room.CreateRoomRequest;
-import app.facility.api.room.CreateRoomResponse;
-import app.facility.api.room.ListRoomResponse;
-import app.facility.api.room.RoomWebService;
-import app.backoffice.api.facility.CreateRoomAJAXRequest;
-import app.backoffice.api.facility.CreateRoomAJAXResponse;
-import app.backoffice.api.facility.ListRoomAJAXResponse;
-import app.backoffice.api.facility.RoomAJAXView;
-import app.backoffice.api.facility.RoomAJAXWebService;
+import app.resource.api.room.BORoomWebService;
+import app.resource.api.room.BOCreateRoomRequest;
+import app.resource.api.room.BOCreateRoomResponse;
+import app.resource.api.room.BOListRoomRequest;
+import app.resource.api.room.BOListRoomResponse;
+import app.backoffice.api.room.CreateRoomAJAXRequest;
+import app.backoffice.api.room.CreateRoomAJAXResponse;
+import app.backoffice.api.room.ListRoomAJAXResponse;
+import app.backoffice.api.room.RoomAJAXView;
+import app.backoffice.api.room.RoomAJAXWebService;
 import core.framework.inject.Inject;
-
 import java.util.stream.Collectors;
 
 public class RoomAJAXWebServiceImpl implements RoomAJAXWebService {
     @Inject
-    RoomWebService roomWebService;
+    BORoomWebService roomWebService;
 
     @Override
     public CreateRoomAJAXResponse create(CreateRoomAJAXRequest req) {
-        CreateRoomRequest remoteReq = new CreateRoomRequest();
+        BOCreateRoomRequest remoteReq = new BOCreateRoomRequest();
         remoteReq.name = req.name;
         remoteReq.companyId = req.companyId;
 
-        CreateRoomResponse remoteResp = roomWebService.create(remoteReq);
+        BOCreateRoomResponse remoteResp = roomWebService.create(remoteReq);
 
         CreateRoomAJAXResponse resp = new CreateRoomAJAXResponse();
         resp.id = remoteResp.id;
@@ -39,10 +39,10 @@ public class RoomAJAXWebServiceImpl implements RoomAJAXWebService {
 
     @Override
     public ListRoomAJAXResponse list() {
-        ListRoomResponse remoteResp = roomWebService.list(null);
+        BOListRoomResponse remoteResp = roomWebService.list(null);
 
         ListRoomAJAXResponse resp = new ListRoomAJAXResponse();
-        resp.items = remoteResp.items.stream().map(r -> {
+        resp.rooms = remoteResp.rooms.stream().map(r -> {
             RoomAJAXView view = new RoomAJAXView();
             view.id = r.id;
             view.name = r.name;

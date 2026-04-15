@@ -1,0 +1,16 @@
+/buildSrc/.gradle/
+/buildSrc/build
+azure.properties
+
+# Eclipse files
+.classpath
+.project
+.settings/
+
+# Build and IDE files
+*.bin
+*.class
+*.lock
+.gradle/
+.idea/
+build/
